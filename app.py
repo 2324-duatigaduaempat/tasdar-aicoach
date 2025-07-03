@@ -10,12 +10,15 @@ def index():
 
 @app.route("/chat", methods=["POST"])
 def chat():
-    data = request.get_json()
-    user_message = data.get("message", "")
-    if not user_message:
-        return jsonify({"error": "Empty message"}), 400
-    gpt_response = call_gpt(user_message)
-    return jsonify({"response": gpt_response})
+    try:
+        data = request.get_json()
+        user_message = data.get("message", "")
+        if not user_message:
+            return jsonify({"response": "❌ Mesej kosong. Sila taip sesuatu."})
+        gpt_response = call_gpt(user_message)
+        return jsonify({"response": gpt_response})
+    except Exception as e:
+        return jsonify({"response": f"❌ Ralat sistem: {str(e)}"})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
