@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head><title>TAS.DAR Coach AI</title></head>
+<body>
+    <h2>💬 TAS.DAR Coach AI</h2>
+    <input type="text" id="message" placeholder="Taip mesej anda..." />
+    <button onclick="sendMessage()">Hantar</button>
+    <div id="chatLog"></div>
+    <script>
+        async function sendMessage() {
+            const msg = document.getElementById("message").value;
+            const response = await fetch("/chat", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({message: msg})
+            });
+            const data = await response.json();
+            document.getElementById("chatLog").innerHTML += "<p><b>Anda:</b> " + msg + "</p>";
+            document.getElementById("chatLog").innerHTML += "<p><b>TAS.DAR:</b> " + data.response + "</p>";
+        }
+    </script>
+</body>
+</html>
